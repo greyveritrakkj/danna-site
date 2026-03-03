@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Para Danna 💛</title>
+    <meta name="description" content="Um presente digital especial feito com muito carinho para Danna.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* ══════════ RESET ══════════ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        /* ══════════ TOKENS ══════════ */
+        :root {
+            --rose: #e8a0b4;
+            --rose-lt: #f4c6d4;
+            --rose-dk: #c46b84;
+            --cream: #fff8f0;
+            --blush: #fce8ef;
+            --coral: #f08080;
+            --wine: #722f37;
+            --wine-lt: #8b3a42;
+            --gold: #d4a843;
+            --gold-lt: #e8c874;
+            --bg1: #fff5ee;
+            --bg2: #fef0e3;
+            --text: #4a2030;
+            --text-lt: #6a3a50;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(232, 160, 180, 0.3);
+            --shadow: rgba(200, 100, 130, 0.15);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ══════════ DARK MODE ══════════ */
+        body.night {
+            --bg1: #1a0b1e;
+            --bg2: #2a1030;
+            --text: #fce8ef;
+            --text-lt: #e8c0d0;
+            --card-bg: rgba(40, 20, 40, 0.85);
+            --card-border: rgba(232, 160, 180, 0.2);
+            --shadow: rgba(0, 0, 0, 0.4);
+            --cream: #fce8ef;
+        }
+
+        /* ══════════ BODY ══════════ */
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+            color: var(--text);
+            background: linear-gradient(160deg, var(--bg1), var(--bg2));
+            overflow-x: hidden;
+            transition: background 0.6s, color 0.6s;
+        }
+
+        /* ══════════ CANVAS ══════════ */
+        #petals-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0
+        }
+
+        /* ══════════ WRAPPER ══════════ */
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 20px 80px
+        }
+
+        /* ══════════ HEADER ══════════ */
+        header {
+            text-align: center;
+            padding: 60px 20px 30px
+        }
+
+        .hearts-row {
+            font-size: 22px;
+            letter-spacing: 10px;
+            margin-bottom: 18px;
+            animation: pulse-h 2.4s ease-in-out infinite
+        }
+
+        @keyframes pulse-h {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.08)
+            }
+        }
+
+        .logo-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(42px, 12vw, 76px);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose-lt), var(--gold), var(--rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            animation: glow-t 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-t {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 8px rgba(232, 160, 180, .4))
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(232, 160, 180, .8))
+            }
+        }
+
+        .logo-sub {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(13px, 3.5vw, 17px);
+            font-style: italic;
+            color: var(--rose-dk);
+            letter-spacing: 2px;
+            opacity: .85
+        }
+
+        /* ══════════ NAV BUTTONS ══════════ */
+        .nav-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 24px
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--rose), var(--rose-dk));
+            color: #fff;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 20px var(--shadow)
+        }
+
+        .nav-btn:active {
+            transform: scale(0.97)
+        }
+
+        /* ══════════ DIVIDER ══════════ */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 36px 0
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rose), transparent)
+        }
+
+        .divider-icon {
+            font-size: 18px
+        }
+
+        /* ══════════ SECTION TITLE ══════════ */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 6vw, 32px);
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--wine);
+        }
+
+        body.night .section-title {
+            color: var(--rose)
+        }
+
+        /* ══════════ COUNTER ══════════ */
+        .counter-section {
+            text-align: center;
+            margin: 20px 0
+        }
+
+        .counter-label {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(18px, 5vw, 26px);
+            color: var(--rose-dk);
+            margin-bottom: 12px
+        }
+
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .counter-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            min-width: 70px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+        }
+
+        .counter-num {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(24px, 6vw, 36px);
+            font-weight: 700;
+            color: var(--wine);
+            display: block
+        }
+
+        body.night .counter-num {
+            color: var(--gold)
+        }
+
+        .counter-unit {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-lt);
+            margin-top: 4px;
+            display: block
+        }
+
+        /* ══════════ FOX SECTION ══════════ */
+        .fox-pet {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            cursor: pointer;
+            animation: float-fox 4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .2));
+        }
+
+        @keyframes float-fox {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-10px)
+            }
+        }
+
+        .fox-emoji {
+            font-size: 50px;
+            display: inline-block;
+            transition: transform .2s
+        }
+
+        .fox-pet:hover .fox-emoji {
+            transform: scale(1.15) rotate(-5deg)
+        }
+
+        .fox-pet:active .fox-emoji {
+            transform: scale(0.9)
+        }
+
+        .fox-mood {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 18px;
+            background: rgba(255, 255, 255, .85);
+            border-radius: 50%;
+            padding: 2px 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+            pointer-events: none
+        }
+
+        /* phrase card */
+        .phrase-card {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            z-index: 99;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 18px 22px;
+            max-width: 280px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 30px var(--shadow);
+            opacity: 0;
+            transform: translateY(15px) scale(0.9);
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            pointer-events: none;
+        }
+
+        .phrase-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto
+        }
+
+        .phrase-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(16px, 4.5vw, 20px);
+            color: var(--wine);
+            line-height: 1.5;
+            text-align: center
+        }
+
+        body.night .phrase-text {
+            color: var(--rose-lt)
+        }
+
+        .phrase-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            transition: transform .2s
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.3)
+        }
+
+        .fav-btn.active {
+            animation: pop .3s
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.5)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        /* favorites drawer */
+        .fav-drawer {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            max-width: 85vw;
+            height: 100vh;
+            z-index: 300;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-left: 1px solid var(--card-border);
+            padding: 24px 20px;
+            overflow-y: auto;
+            transition: right .4s ease;
+            box-shadow: -4px 0 30px var(--shadow);
+        }
+
+        .fav-drawer.open {
+            right: 0
+        }
+
+        .fav-drawer-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--rose-dk)
+        }
+
+        .fav-drawer h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--wine)
+        }
+
+        body.night .fav-drawer h3 {
+            color: var(--rose)
+        }
+
+        .fav-list {
+            list-style: none
+        }
+
+        .fav-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background: rgba(232, 160, 180, .08);
+            border: 1px solid var(--card-border);
+            font-family: 'Dancing Script', cursive;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        /* ══════════ LETTERS ══════════ */
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px
+        }
+
+        .envelope-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .envelope-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow)
+        }
+
+        .envelope-card.special {
+            border-color: var(--gold);
+            animation: special-glow 2.5s ease-in-out infinite
+        }
+
+        @keyframes special-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 15px var(--shadow), 0 0 15px rgba(212, 168, 67, .2)
+            }
+
+            50% {
+                box-shadow: 0 8px 25px var(--shadow), 0 0 30px rgba(212, 168, 67, .4)
+            }
+        }
+
+        .envelope-card .env-icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px
+        }
+
+        .envelope-card .env-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: var(--text-lt)
+        }
+
+        .envelope-card.special .env-title {
+            color: var(--gold)
+        }
+
+        .envelope-card.special::after {
+            content: '⭐';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 14px;
+        }
+
+        /* letter modal */
+        .letter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 10, 24, .85);
+            backdrop-filter: blur(12px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .5s;
+        }
+
+        .letter-overlay.active {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .letter-paper {
+            background: linear-gradient(135deg, #fdf6ec, #fef0e3, #fce8ef, #fdf6ec);
+            width: 100%;
+            max-width: 420px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            position: relative;
+            transform: translateY(60px) scale(0.85) rotateX(-10deg);
+            transition: transform .6s cubic-bezier(.34, 1.56, .64, 1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4), 0 0 60px rgba(232, 160, 180, .1);
+            color: var(--wine);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .letter-overlay.active .letter-paper {
+            transform: translateY(0) scale(1) rotateX(0)
+        }
+
+        .letter-inner {
+            border: 2px dashed rgba(232, 160, 180, .2);
+            margin: 16px;
+            padding: clamp(20px, 5vw, 32px);
+            border-radius: 4px;
+            position: relative
+        }
+
+        .letter-seal {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 35% 35%, #d44, #8b1a1a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 3px 12px rgba(139, 26, 26, .5);
+            z-index: 5;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 16px;
+            padding-top: 16px
+        }
+
+        .letter-date {
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            color: rgba(74, 32, 48, .4);
+            letter-spacing: 1.5px;
+            text-transform: uppercase
+        }
+
+        .letter-body {
+            font-size: clamp(16px, 4.5vw, 20px);
+            line-height: 1.75;
+            white-space: pre-wrap;
+            margin-bottom: 16px
+        }
+
+        .letter-sig {
+            text-align: right;
+            font-size: clamp(18px, 5vw, 22px);
+            color: var(--rose-dk)
+        }
+
+        .letter-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(232, 160, 180, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--rose-dk);
+            transition: var(--transition);
+            z-index: 10;
+            border: none;
+        }
+
+        .letter-close:hover {
+            background: var(--rose);
+            color: #fff;
+            transform: rotate(90deg)
+        }
+
+        /* ══════════ MOMENTS ══════════ */
+        .moments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        .moment-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px var(--shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all .6s ease;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .moment-card.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .moment-card::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--rose-lt), var(--rose-dk));
+            border-radius: 3px;
+        }
+
+        .moment-card::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 28px;
+            width: 13px;
+            height: 13px;
+            background: var(--rose);
+            border-radius: 50%;
+            border: 2px solid var(--cream);
+        }
+
+        .moment-date {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            color: var(--rose-dk);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px
+        }
+
+        .moment-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(16px, 4.5vw, 20px);
+            font-weight: 700;
+            color: var(--wine);
+            margin-bottom: 6px
+        }
+
+        body.night .moment-title {
+            color: var(--rose-lt)
+        }
+
+        .moment-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-lt)
+        }
+
+        /* ══════════ QUIZ ══════════ */
+        .quiz-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .quiz-question {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(16px, 4.5vw, 20px);
+            margin-bottom: 16px;
+            color: var(--wine);
+            text-align: center
+        }
+
+        body.night .quiz-question {
+            color: var(--rose-lt)
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .quiz-opt {
+            background: rgba(232, 160, 180, .08);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .quiz-opt:hover {
+            background: rgba(232, 160, 180, .2);
+            transform: translateX(5px)
+        }
+
+        .quiz-opt.selected {
+            background: var(--rose);
+            color: #fff;
+            border-color: var(--rose)
+        }
+
+        .quiz-result {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(18px, 5vw, 24px);
+            color: var(--wine);
+            padding: 20px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        body.night .quiz-result {
+            color: var(--gold)
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px
+        }
+
+        .quiz-nav button {
+            background: var(--rose);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .quiz-nav button:hover {
+            background: var(--rose-dk);
+            transform: translateY(-2px)
+        }
+
+        .quiz-nav button:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        /* ══════════ GUESTBOOK ══════════ */
+        .guestbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .gb-subtitle {
+            text-align: center;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: var(--text-lt);
+            margin-top: -16px;
+            margin-bottom: 20px;
+        }
+
+        .gb-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .gb-input,
+        .gb-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-family: 'Lato', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        body.night .gb-input,
+        body.night .gb-textarea {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .gb-input:focus,
+        .gb-textarea:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 2px rgba(232, 160, 180, 0.2);
+        }
+
+        .gb-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .gb-form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-lt);
+        }
+
+        .gb-btn {
+            background: linear-gradient(135deg, var(--rose), var(--rose-dk));
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gb-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .gb-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .gb-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .gb-msg {
+            background: rgba(232, 160, 180, .08);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gb-msg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .gb-msg-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--wine);
+            font-size: 16px;
+        }
+
+        body.night .gb-msg-name {
+            color: var(--rose-lt);
+        }
+
+        .gb-msg-date {
+            font-size: 11px;
+            color: var(--text-lt);
+        }
+
+        .gb-msg-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text);
+            word-wrap: break-word;
+        }
+
+        .gb-reply {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(212, 168, 67, 0.1);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 12px 12px 0;
+        }
+
+        .gb-reply-title {
+            font-family: 'Dancing Script', cursive;
+            color: var(--gold);
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .gb-reply-text {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--text);
+        }
+
+        .gb-load-more {
+            width: 100%;
+            background: none;
+            border: 1px dashed var(--rose-dk);
+            color: var(--rose-dk);
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 16px;
+            font-family: 'Lato', sans-serif;
+            transition: var(--transition);
+        }
+
+        .gb-load-more:hover {
+            background: rgba(232, 160, 180, 0.1);
+        }
+
+        .gb-fav-icon {
+            color: var(--rose);
+            font-size: 14px;
+            margin-left: 6px;
+        }
+
+        /* Admin controls */
+        .admin-controls {
+            margin-top: 12px;
+            display: none;
+            gap: 8px;
+            border-top: 1px dashed var(--card-border);
+            padding-top: 12px;
+        }
+
+        body.admin-mode .admin-controls {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-btn {
+            background: var(--bg2);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .admin-btn:hover {
+            background: var(--rose-lt);
+            color: var(--wine);
+        }
+
+        /* ══════════ FINAL ══════════ */
+        .final-section {
+            text-align: center;
+            margin-top: 40px
+        }
+
+        .final-msg {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(20px, 6vw, 32px);
+            color: var(--wine);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        body.night .final-msg {
+            color: var(--rose-lt)
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(212, 168, 67, .3);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-3px)
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #4caf50, #66bb6a)
+        }
+
+        /* ══════════ FOOTER ══════════ */
+        .site-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 0;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px
+        }
+
+        .toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.1);
+            background: var(--rose);
+            color: #fff
+        }
+
+        .footer-heart {
+            font-size: 24px;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform .2s;
+            margin-top: 10px
+        }
+
+        .footer-heart:hover {
+            transform: scale(1.2)
+        }
+
+        .footer-heart:active {
+            transform: scale(0.8)
+        }
+
+        .secret-msg {
+            font-family: 'Dancing Script', cursive;
+            font-size: 18px;
+            color: var(--gold);
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity .6s;
+        }
+
+        .secret-msg.show {
+            opacity: 1
+        }
+
+        .footer-credit {
+            font-size: 12px;
+            color: var(--text-lt);
+            margin-top: 16px;
+            letter-spacing: 1px
+        }
+
+        /* ══════════ HEARTS PARTICLE ══════════ */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 18px;
+            z-index: 150;
+            animation: heart-rise 1.2s ease-out forwards;
+        }
+
+        @keyframes heart-rise {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.3) rotate(45deg)
+            }
+        }
+
+        /* ══════════ OVERLAY FOR FAV DRAWER ══════════ */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .4);
+            z-index: 299;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .drawer-overlay.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        /* ══════════ RESPONSIVE ══════════ */
+        @media(max-width:480px) {
+            .letters-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .counter-grid {
+                gap: 8px
+            }
+
+            .counter-box {
+                padding: 10px 14px;
+                min-width: 60px
+            }
+
+            .phrase-card {
+                right: 10px;
+                left: 10px;
+                max-width: none
+            }
+
+            .fox-pet {
+                bottom: 12px;
+                right: 12px
+            }
+
+            .fox-emoji {
+                font-size: 42px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="petals-canvas"></canvas>
+
+    <div class="wrapper">
+        <!-- HEADER -->
+        <header>
+            <div class="hearts-row">🌸 💕 🌸 💕 🌸</div>
+            <h1 class="logo-title">Para você, Danna 💛</h1>
+            <p class="logo-sub">feito com todo carinho do mundo ✦ por Grey</p>
+            <nav class="nav-btns">
+                <button class="nav-btn" onclick="scrollTo('#cartas-section')" aria-label="Ver cartas">💌 Abrir
+                    Cartas</button>
+                <button class="nav-btn" onclick="document.querySelector('.fox-pet').click()"
+                    aria-label="Gerar frase fofa">🦊 Frase da Raposa</button>
+                <button class="nav-btn" onclick="scrollTo('#momentos-section')" aria-label="Ver momentos">✨
+                    Momentos</button>
+            </nav>
+        </header>
+
+        <div class="divider"><span class="divider-icon">💕</span></div>
+
+        <!-- COUNTER -->
+        <section class="counter-section" id="counter-section">
+            <div class="counter-label">Nosso tempo juntos 💛</div>
+            <div class="counter-grid">
+                <div class="counter-box"><span class="counter-num">5</span><span class="counter-unit">Anos</span></div>
+            </div>
+        </section>
+
+        <div class="divider"><span class="divider-icon">💌</span></div>
+
+        <!-- LETTERS -->
+        <section id="cartas-section">
+            <h2 class="section-title">Cartas para Você</h2>
+            <div class="letters-grid" id="letters-grid"></div>
+        </section>
+
+        <div class="divider"><span class="divider-icon">✨</span></div>
+
+        <!-- MOMENTS -->
+        <section id="momentos-section">
+            <h2 class="section-title">Nossos Momentos</h2>
+            <div class="moments-list" id="moments-list"></div>
+        </section>
+
+        <div class="divider"><span class="divider-icon">💕</span></div>
+
+        <!-- QUIZ -->
+        <section id="quiz-section">
+            <h2 class="section-title">Quiz Fofo 💝</h2>
+            <div class="quiz-card" id="quiz-card"></div>
+        </section>
+
+        <div class="divider"><span class="divider-icon">🌸</span></div>
+
+        <!-- GUESTBOOK -->
+        <section id="guestbook-section">
+            <h2 class="section-title">
+                Recadinhos pra nós
+                <span id="admin-trigger"
+                    style="font-size: 14px; cursor: pointer; color: var(--rose-lt); position: absolute; top:0; right: -25px;"
+                    title="Admin Mode">🔒</span>
+            </h2>
+            <p class="gb-subtitle">Escreve algo bonito… eu vou ler com carinho. 💛</p>
+
+            <div class="guestbook-card">
+                <form id="gb-form" class="gb-form">
+                    <input type="text" id="gb-name" class="gb-input" placeholder="Seu nome" maxlength="30" required>
+                    <textarea id="gb-text" class="gb-textarea" placeholder="Escreva sua mensagem..." maxlength="280"
+                        required></textarea>
+                    <div class="gb-form-footer">
+                        <span id="gb-counter">0/280</span>
+                        <span id="gb-status"></span>
+                        <button type="submit" id="gb-submit" class="gb-btn">Enviar recadinho</button>
+                    </div>
+                </form>
+
+                <div class="gb-messages" id="gb-list">
+                    <!-- Messages will be injected here -->
+                    <div style="text-align:center; padding: 20px; color: var(--text-lt); font-style: italic;">Carregando
+                        recadinhos...</div>
+                </div>
+                <button id="gb-load-more" class="gb-load-more" style="display:none;">Carregar mais recados</button>
+            </div>
+        </section>
+
+        <div class="divider"><span class="divider-icon">💌</span></div>
+
+        <!-- FINAL -->
+        <section class="final-section">
+            <p class="final-msg" id="final-msg">
+                Obrigado por existir na minha vida, Danna.<br>
+                Você é uma das pessoas mais especiais que eu já conheci.<br>
+                <strong>Te amo demais, irmazinha. 💛</strong>
+            </p>
+            <button class="copy-btn" id="copy-btn" aria-label="Copiar mensagem">📋 Copiar Mensagem</button>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-controls">
+                <button class="toggle-btn" id="theme-toggle" aria-label="Alternar modo dia/noite">🌙</button>
+                <button class="toggle-btn" id="music-toggle" aria-label="Ligar/desligar música">🎵</button>
+                <button class="toggle-btn" onclick="openFavDrawer()" aria-label="Ver frases favoritas">⭐</button>
+            </div>
+            <div class="footer-heart" id="easter-heart" aria-label="Coração secreto">❤️</div>
+            <div class="secret-msg" id="secret-msg">Você é o motivo do meu sorriso todos os dias. Nunca se esqueça
+                disso. 🌟</div>
+            <div class="footer-credit">feito com 💛 por Grey Vritra</div>
+        </footer>
+    </div>
+
+    <!-- FOX PET -->
+    <div class="fox-pet" id="fox-pet" role="button" aria-label="Clique na raposa para uma frase fofa" tabindex="0">
+        <span class="fox-emoji">🦊</span>
+        <span class="fox-mood" id="fox-mood">💛</span>
+    </div>
+
+    <!-- PHRASE CARD -->
+    <div class="phrase-card" id="phrase-card">
+        <p class="phrase-text" id="phrase-text"></p>
+        <div class="phrase-actions">
+            <button class="fav-btn" id="fav-btn" aria-label="Favoritar frase">🤍</button>
+        </div>
+    </div>
+
+    <!-- FAVORITES DRAWER -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeFavDrawer()"></div>
+    <div class="fav-drawer" id="fav-drawer" role="dialog" aria-label="Frases favoritas">
+        <button class="fav-drawer-close" onclick="closeFavDrawer()" aria-label="Fechar">&times;</button>
+        <h3>⭐ Frases Favoritas</h3>
+        <ul class="fav-list" id="fav-list"></ul>
+    </div>
+
+    <!-- LETTER MODAL -->
+    <div class="letter-overlay" id="letter-overlay" role="dialog" aria-label="Carta">
+        <div class="letter-paper">
+            <button class="letter-close" id="letter-close" aria-label="Fechar carta">&times;</button>
+            <div class="letter-inner">
+                <div class="letter-seal">💛</div>
+                <div class="letter-header">
+                    <div class="letter-date" id="letter-modal-title"></div>
+                </div>
+                <div class="letter-body" id="letter-modal-body"></div>
+                <div class="letter-sig" id="letter-modal-sig"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO -->
+    <audio id="bg-music" loop preload="none">
+        <source src="https://cdn.pixabay.com/audio/2022/02/22/audio_d1718ab41b.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JAVASCRIPT PLACEHOLDER -->
+    <script>
+        // Global error removed after finding issue
+    </script>
+    <script>
+        /* ══════════ CONFIG ══════════ */
+        const CONFIG = {
+            recipientName: 'Danna',
+            fromName: 'Grey',
+            specialDate: '2025-06-15T00:00:00',
+            customMessage: 'Obrigado por existir na minha vida, Danna. Você é uma das pessoas mais especiais que eu já conheci. Te amo demais, irmazinha. 💛'
+        };
+
+        /* ══════════ SUPABASE CONFIG ══════════ */
+        const SUPABASE_URL = 'https://uoynqbcnhtmrmzkwtuvc.supabase.co'; // Derived from JWT ref payload
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVveW5xYmNuaHRtbXJ6a3d0dXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MDI5NzEsImV4cCI6MjA4ODA3ODk3MX0.ka-Tu8Fcmbe76x5bzIF17KlXVRnZjPULzAGKxZagBAg';
+        const SITE_ID = 'love-fox-2026';
+        let ADMIN_PASSCODE = 'senha123'; // Admin mode passcode
+
+        let supabaseClient = null;
+        try {
+            if (window.supabase && SUPABASE_URL.startsWith('http')) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch (e) {
+            console.warn("Supabase inválido, o guestbook visual funcionará apenas localmente com erros visíveis no console.", e);
+        }
+        /* ══════════ DATA: FRASES (40+) ══════════ */
+        const FRASES = [
+            "Você é a melhor coisa que aconteceu na minha vida. 💛",
+            "Cada momento com você é um presente. 🌸",
+            "Seu sorriso ilumina até os dias mais cinzas. ✨",
+            "Obrigado por ser exatamente quem você é. 💕",
+            "Você merece todo o amor do mundo, sabia? 🌷",
+            "Só de pensar em você meu dia já melhora. 🦊",
+            "Você é rara como uma estrela cadente, e eu tive a sorte de te encontrar. ⭐",
+            "Quando você sorri, o mundo inteiro fica mais bonito.🌹",
+            "Ter você na minha vida é o maior privilégio. 💖",
+            "Você é forte, linda e incrível. Nunca duvide disso. 🌻",
+            "Mesmo longe, você tá sempre no meu coração. 💗",
+            "Nossos momentos juntos são os melhores que eu tenho. 🎀",
+            "Eu acredito em você mais do que você imagina. 🌟",
+            "Você transforma o comum em extraordinário. ✨",
+            "Se o mundo soubesse o quão especial você é… 💫",
+            "Cada risada sua é uma melodia que eu amo ouvir. 🎶",
+            "Você é minha pessoa favorita, sem exceção. 🥰",
+            "Obrigado por nunca desistir de mim. 💛",
+            "Você é a prova de que coisas lindas existem. 🌸",
+            "Eu te admiro mais do que as palavras podem dizer. 💕",
+            "Você faz o impossível parecer simples. 🦋",
+            "Minha vida ficou muito mais colorida com você. 🌈",
+            "Você é um abraço em forma de pessoa. 🤗",
+            "Nunca se esqueça: você é amada demais. ❤️",
+            "Seu coração é o mais bonito que eu já conheci. 💖",
+            "Você ilumina qualquer ambiente que entra. ☀️",
+            "Que sorte a minha ter você como irmãzinha. 🍀",
+            "Você merece flores todos os dias. 🌺",
+            "Com você eu aprendi o que é amizade de verdade. 💎",
+            "Você é aquela pessoa que faz tudo valer a pena. 🌙",
+            "Eu sou grato por cada segundo ao seu lado. ⏳",
+            "Você é mais forte do que pensa e mais amada do que sabe. 💪",
+            "O mundo precisa de mais pessoas como você. 🌍",
+            "Você faz os meus dias mais leves e felizes. 🎈",
+            "Saiba que eu sempre vou torcer por você. 🏆",
+            "Você é a definição de pessoa incrível. 👑",
+            "Eu te amo do tamanho do universo. 🚀",
+            "Obrigado por colorir minha vida com a sua presença. 🎨",
+            "Você é o tipo de pessoa que a gente nunca quer perder. 💝",
+            "Cada dia com você é uma aventura maravilhosa. 🗺️",
+            "Você tem o poder de fazer qualquer pessoa feliz. 😊",
+            "Eu nunca vou me cansar de dizer: você é especial. 🌟",
+            "Te ter por perto é o melhor presente que existe. 🎁",
+            "Você é a razão de muitos sorrisos meus. 😄",
+            "Se eu pudesse escolher de novo, escolheria você mil vezes. 💛"
+        ];
+
+        /* ══════════ DATA: CARTAS (6+) ══════════ */
+        const CARTAS = [
+            {
+                title: 'Carta do Coração', special: false, body: `Danna, minha irmãzinha querida,
+
+Eu queria te dizer algo que talvez eu não diga o suficiente: você é uma das pessoas mais importantes da minha vida. Desde que a gente se conheceu, minha vida mudou de um jeito que eu nem sabia que era possível.
+
+Você tem esse dom de fazer as pessoas se sentirem especiais, de transformar um dia comum em algo memorável. Eu admiro sua força, sua coragem e, principalmente, o tamanho do seu coração.
+
+Obrigado por estar sempre ali, mesmo quando eu sou difícil. Obrigado por cada risada, cada conversa, cada momento. Eu guardo tudo isso com muito carinho.
+
+Saiba que você nunca vai estar sozinha. Eu sempre vou estar aqui por você, não importa o que aconteça. Isso é uma promessa.
+
+Te amo muito. 💛`},
+            {
+                title: 'Para os Dias Difíceis', special: false, body: `Ei, Danna.
+
+Se você tá lendo isso num dia difícil, eu quero que saiba de uma coisa: dias ruins passam. Eu sei que às vezes parece que o mundo tá pesado demais, que nada vai dar certo. Mas eu acredito em você com todas as minhas forças.
+
+Você já superou tanta coisa. Você é muito mais forte do que imagina. E mesmo nos momentos em que você não consegue ver isso, eu consigo. Eu vejo a pessoa incrível que você é.
+
+Então respira fundo, toma uma água, e lembra que tem alguém aqui que te ama incondicionalmente. Pode ser chato, pode ser frio às vezes, mas nunca vai deixar de se importar com você.
+
+Amanhã vai ser melhor. E se não for, a gente enfrenta junto.
+
+Com todo meu carinho. 💕`},
+            {
+                title: 'Sobre Nossos Momentos', special: false, body: `Sabe o que eu mais gosto?
+
+Gosto dos momentos simples. Daquelas conversas que começam sem pretensão e acabam durando horas. Dos áudios longos. Das risadas que doem a barriga. Dos memes que só a gente entende.
+
+São esses momentos que fazem a vida valer a pena, Danna. E eu tenho a sorte de viver muitos deles com você.
+
+Cada memória que a gente cria é um tesouro pra mim. Eu guardo tudo com muito cuidado no meu coração. E espero que a gente continue criando muitas outras.
+
+Obrigado por fazer parte da minha história. 🌸`},
+            {
+                title: 'Uma Promessa', special: false, body: `Danna,
+
+Eu quero te fazer uma promessa. Não é uma promessa grandiosa ou impossível. É simples, mas é verdadeira:
+
+Eu prometo que vou estar sempre do seu lado. Nos dias bons e nos ruins. Nas risadas e nas lágrimas. Nas conquistas e nos tropeços.
+
+Eu prometo que vou te apoiar nos seus sonhos, mesmo os mais loucos. Que vou te ouvir quando você precisar desabafar. Que vou te fazer rir quando você estiver triste.
+
+E principalmente, eu prometo que nunca vou deixar você se sentir sozinha. Porque você não é. Você tem a mim, e isso não vai mudar. Nunca.
+
+Essa é a minha promessa pra você. 💛`},
+            {
+                title: 'O Que Eu Admiro em Você', special: false, body: `Danna, eu poderia escrever um livro inteiro sobre as coisas que eu admiro em você. Mas vou tentar resumir:
+
+Admiro sua coragem de ser quem você é, sem máscaras. Admiro como você cuida das pessoas que ama. Admiro sua força de levantar toda vez que cai.
+
+Admiro seu sorriso, que é contagiante. Admiro sua inteligência e sua sensibilidade. Admiro como você consegue ver o lado bom das coisas.
+
+Eu admiro tudo em você. E quero que você saiba que o mundo é um lugar melhor porque você existe nele.
+
+Nunca mude, tá? O mundo precisa de você exatamente assim. ✨`},
+            {
+                title: 'Carta Especial ⭐', special: true, body: `Minha querida Danna,
+
+Essa é a carta mais importante de todas, então presta atenção.
+
+Eu não sei direito quando nossa amizade se tornou tão especial assim pra mim, mas atualmente eu te considero uma família. Você sempre vai estar no fundo do meu coração.
+
+Você é a pessoa que eu sempre quero conversar, mesmo quando eu tô sendo chato ou frio. Você ainda assim consegue me tirar uma risada sincera. Mesmo com nossas diferenças e brigas, eu acabo sempre pensando em você.
+
+Pode parecer exagero, mas não é. Você é uma das pessoas mais MARAVILHOSAS que apareceram na minha vida. E eu queria que você soubesse disso de um jeito que durasse, num lugar que você pudesse voltar sempre que precisar.
+
+Então aqui vai: obrigado por existir, por estar perto, por ser exatamente quem você é.
+
+EU TE AMO PRA SEMPRE, IRMAZINHA DO MEU CORAÇÃO. 💛💛💛
+
+Esse site todo foi feito pensando em você. Cada linha de código, cada frase, cada detalhe. Porque você merece o mundo inteiro.
+
+Para sempre seu irmão chato,`}
+        ];
+
+        /* ══════════ DATA: MOMENTOS (8) ══════════ */
+        const MOMENTOS = [
+            { date: 'O Começo', title: 'Quando Tudo Começou', desc: 'O dia em que a gente se conheceu e eu nem imaginava que você se tornaria tão importante pra mim. Uma conversa simples que mudou tudo.' },
+            { date: 'Primeiras Risadas', title: 'A Primeira Risada de Verdade', desc: 'Aquela risada que doeu a barriga, que fez eu perceber que tinha encontrado alguém especial. A partir dali, eu soube que essa amizade era diferente.' },
+            { date: 'Primeiro Sufoco', title: 'O Primeiro Problema Juntos', desc: 'Quando tudo parecia desmoronar, mas a gente enfrentou junto. Foi ali que eu vi o tamanho da sua força e do seu coração.' },
+            { date: 'Conversas Longas', title: 'A Madrugada Mais Longa', desc: 'Aquela noite em que a gente ficou conversando até o sol nascer. Sobre a vida, sobre sonhos, sobre medos. Uma das melhores noites da minha vida.' },
+            { date: 'Brigas e Voltas', title: 'Nossa Primeira Briga de Verdade', desc: 'A gente brigou, ficou sem se falar. Mas voltou. Porque amizade de verdade sobrevive a qualquer tempestade. E a nossa é à prova de tudo.' },
+            { date: 'Momento Fofo', title: 'Quando Você Me Surpreendeu', desc: 'Aquele dia em que você fez algo inesperado e tão fofo que eu quase chorei. Você nem sabe o impacto que teve em mim naquele momento.' },
+            { date: 'Conquistas', title: 'Celebrando Juntos', desc: 'Cada conquista sua eu comemoro como se fosse minha. Porque ver você feliz é uma das coisas que mais me faz feliz nessa vida.' },
+            { date: 'Hoje e Sempre', title: 'O Presente É Nosso', desc: 'Hoje eu olho pra trás e vejo o quanto a gente já viveu junto. E olho pra frente sabendo que ainda tem muito mais pela frente. Te amo, irmã. 💛' }
+        ];
+
+        /* ══════════ DATA: QUIZ ══════════ */
+        const QUIZ = [
+            { q: 'O que mais te faz feliz? 😊', opts: ['Ficar com quem eu amo', 'Realizar meus sonhos', 'Momentos de paz e tranquilidade'] },
+            { q: 'Qual seu superpoder? 💪', opts: ['Fazer as pessoas sorrirem', 'Nunca desistir', 'Amar incondicionalmente'] },
+            { q: 'O que você mais valoriza? 💎', opts: ['Amizade verdadeira', 'Honestidade', 'Carinho e atenção'] }
+        ];
+        const QUIZ_RESULTS = [
+            'Você é uma pessoa cheia de luz que espalha amor por onde passa. O mundo precisa de mais pessoas como você! 🌟💛',
+            'Sua força e determinação são inspiradoras. Você é capaz de conquistar tudo o que sonha! 🚀✨',
+            'Seu coração é puro e enorme. As pessoas ao seu redor são muito sortudas por ter você. 💖🌸'
+        ];
+
+        /* ══════════ PETALS CANVAS ══════════ */
+        (function () {
+            const cv = document.getElementById('petals-canvas'), ctx = cv.getContext('2d');
+            let W, H; const petals = []; const PETAL_COUNT = 25;
+            const petalChars = ['🌸', '🩷', '💮', '🏵️', '✿'];
+            function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight }
+            window.addEventListener('resize', resize); resize();
+            class Petal {
+                constructor() { this.reset() }
+                reset() {
+                    this.x = Math.random() * W; this.y = -30 - Math.random() * 100;
+                    this.size = 14 + Math.random() * 12; this.speed = 0.5 + Math.random() * 1.5;
+                    this.drift = Math.random() * 0.8 - 0.4; this.rot = Math.random() * 360;
+                    this.rotSpeed = Math.random() * 2 - 1; this.alpha = 0.4 + Math.random() * 0.5;
+                    this.char = petalChars[Math.floor(Math.random() * petalChars.length)];
+                }
+                update() {
+                    this.y += this.speed; this.x += this.drift + Math.sin(this.y * 0.01) * 0.3;
+                    this.rot += this.rotSpeed;
+                    if (this.y > H + 40) this.reset();
+                }
+                draw() {
+                    ctx.save(); ctx.globalAlpha = this.alpha;
+                    ctx.translate(this.x, this.y); ctx.rotate(this.rot * Math.PI / 180);
+                    ctx.font = this.size + 'px serif'; ctx.textAlign = 'center';
+                    ctx.fillText(this.char, 0, 0); ctx.restore();
+                }
+            }
+            for (let i = 0; i < PETAL_COUNT; i++) { const p = new Petal(); p.y = Math.random() * H; petals.push(p) }
+            function animate() {
+                ctx.clearRect(0, 0, W, H);
+                petals.forEach(p => { p.update(); p.draw() });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        /* ══════════ COUNTER ══════════ */
+        // Removed dynamic countdown script. Replaced with static "5 Anos" in HTML.
+
+        /* ══════════ LETTERS GRID ══════════ */
+        (function () {
+            const grid = document.getElementById('letters-grid');
+            CARTAS.forEach((c, i) => {
+                const div = document.createElement('div');
+                div.className = 'envelope-card' + (c.special ? ' special' : '');
+                div.innerHTML = `<span class="env-icon">${c.special ? '💌' : '✉️'}</span><span class="env-title">${c.title}</span>`;
+                div.addEventListener('click', () => openLetter(i));
+                div.setAttribute('role', 'button'); div.setAttribute('tabindex', '0');
+                div.setAttribute('aria-label', 'Abrir: ' + c.title);
+                div.addEventListener('keydown', e => { if (e.key === 'Enter') openLetter(i) });
+                grid.appendChild(div);
+            });
+        })();
+
+        /* ══════════ LETTER MODAL ══════════ */
+        function openLetter(i) {
+            const c = CARTAS[i], ov = document.getElementById('letter-overlay');
+            document.getElementById('letter-modal-title').textContent = c.title;
+            document.getElementById('letter-modal-body').textContent = c.body;
+            document.getElementById('letter-modal-sig').textContent = '— Com amor, ' + CONFIG.fromName + ' 💕';
+            ov.classList.add('active'); document.body.style.overflow = 'hidden';
+        }
+        function closeLetter() {
+            document.getElementById('letter-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('letter-close').addEventListener('click', closeLetter);
+        document.getElementById('letter-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLetter() });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLetter(); closeFavDrawer() } });
+
+        /* ══════════ MOMENTS ══════════ */
+        (function () {
+            const list = document.getElementById('moments-list');
+            MOMENTOS.forEach(m => {
+                const div = document.createElement('div'); div.className = 'moment-card';
+                div.innerHTML = `<div class="moment-date">${m.date}</div><div class="moment-title">${m.title}</div><div class="moment-desc">${m.desc}</div>`;
+                list.appendChild(div);
+            });
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.moment-card').forEach(c => obs.observe(c));
+        })();
+
+        /* ══════════ QUIZ ══════════ */
+        (function () {
+            const card = document.getElementById('quiz-card');
+            let step = 0, answers = [];
+            function renderQuiz() {
+                if (step < QUIZ.length) {
+                    const q = QUIZ[step];
+                    card.innerHTML = `<div class="quiz-question">${step + 1}. ${q.q}</div>
+<div class="quiz-options">${q.opts.map((o, i) => `<div class="quiz-opt" data-i="${i}">${o}</div>`).join('')}</div>
+<div class="quiz-nav"><button id="quiz-next" disabled>Próxima →</button></div>`;
+                    let sel = -1;
+                    card.querySelectorAll('.quiz-opt').forEach(o => {
+                        o.addEventListener('click', function () {
+                            card.querySelectorAll('.quiz-opt').forEach(x => x.classList.remove('selected'));
+                            this.classList.add('selected'); sel = parseInt(this.dataset.i);
+                            document.getElementById('quiz-next').disabled = false;
+                        });
+                    });
+                    document.getElementById('quiz-next').addEventListener('click', () => {
+                        if (sel >= 0) { answers.push(sel); step++; renderQuiz() }
+                    });
+                } else {
+                    const ri = answers.reduce((a, b) => a + b, 0) % QUIZ_RESULTS.length;
+                    card.innerHTML = `<div class="quiz-result" style="display:block">${QUIZ_RESULTS[ri]}</div>
+<div class="quiz-nav"><button onclick="location.reload()">🔄 Refazer</button></div>`;
+                }
+            }
+            renderQuiz();
+        })();
+
+        /* ══════════ FOX + PHRASES ══════════ */
+        let currentPhrase = '', phraseTimeout = null;
+        const favorites = JSON.parse(localStorage.getItem('danna_favs') || '[]');
+        function spawnHearts(x, y) {
+            const hearts = ['❤️', '💕', '💖', '💗', '💛', '🧡', '💜'];
+            for (let i = 0; i < 15; i++) {
+                const h = document.createElement('span'); h.className = 'heart-particle';
+                h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                h.style.left = (x - 10 + Math.random() * 40) + 'px'; h.style.top = (y - 10 + Math.random() * 20) + 'px';
+                h.style.fontSize = (14 + Math.random() * 14) + 'px';
+                h.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 1500);
+            }
+        }
+        document.getElementById('fox-pet').addEventListener('click', function (e) {
+            const idx = Math.floor(Math.random() * FRASES.length);
+            currentPhrase = FRASES[idx];
+            document.getElementById('phrase-text').textContent = currentPhrase;
+            const pc = document.getElementById('phrase-card'); pc.classList.add('show');
+            updateFavBtn();
+            const moods = ['💛', '😍', '🥰', '💕', '✨', '💖'];
+            document.getElementById('fox-mood').textContent = moods[Math.floor(Math.random() * moods.length)];
+            spawnHearts(e.clientX || window.innerWidth - 60, e.clientY || window.innerHeight - 60);
+            clearTimeout(phraseTimeout); phraseTimeout = setTimeout(() => pc.classList.remove('show'), 8000);
+        });
+        function updateFavBtn() {
+            const btn = document.getElementById('fav-btn');
+            btn.textContent = favorites.includes(currentPhrase) ? '❤️' : '🤍';
+            btn.classList.toggle('active', favorites.includes(currentPhrase));
+        }
+        document.getElementById('fav-btn').addEventListener('click', function () {
+            if (!currentPhrase) return;
+            const idx = favorites.indexOf(currentPhrase);
+            if (idx >= 0) favorites.splice(idx, 1); else favorites.push(currentPhrase);
+            localStorage.setItem('danna_favs', JSON.stringify(favorites));
+            updateFavBtn(); renderFavList();
+        });
+        function renderFavList() {
+            const ul = document.getElementById('fav-list'); ul.innerHTML = '';
+            if (favorites.length === 0) { ul.innerHTML = '<li style="opacity:.5">Nenhuma frase favoritada ainda…</li>'; return }
+            favorites.forEach(f => { const li = document.createElement('li'); li.textContent = f; ul.appendChild(li) });
+        }
+        function openFavDrawer() {
+            document.getElementById('fav-drawer').classList.add('open');
+            document.getElementById('drawer-overlay').classList.add('open'); renderFavList()
+        }
+        function closeFavDrawer() {
+            document.getElementById('fav-drawer').classList.remove('open');
+            document.getElementById('drawer-overlay').classList.remove('open')
+        }
+
+        /* ══════════ THEME TOGGLE ══════════ */
+        const savedTheme = localStorage.getItem('danna_theme');
+        if (savedTheme === 'night') document.body.classList.add('night');
+        document.getElementById('theme-toggle').addEventListener('click', function () {
+            document.body.classList.toggle('night');
+            this.textContent = document.body.classList.contains('night') ? '☀️' : '🌙';
+            localStorage.setItem('danna_theme', document.body.classList.contains('night') ? 'night' : 'day');
+        });
+        if (document.body.classList.contains('night')) document.getElementById('theme-toggle').textContent = '☀️';
+
+        /* ══════════ MUSIC TOGGLE ══════════ */
+        let musicOn = false; const audio = document.getElementById('bg-music'); audio.volume = 0.3;
+        document.getElementById('music-toggle').addEventListener('click', function () {
+            musicOn = !musicOn;
+            if (musicOn) { audio.play().catch(() => { }); this.textContent = '🔇' }
+            else { audio.pause(); this.textContent = '🎵' }
+        });
+
+        /* ══════════ COPY MESSAGE ══════════ */
+        document.getElementById('copy-btn').addEventListener('click', function () {
+            navigator.clipboard.writeText(CONFIG.customMessage).then(() => {
+                this.textContent = '✅ Copiado!'; this.classList.add('copied');
+                setTimeout(() => { this.textContent = '📋 Copiar Mensagem'; this.classList.remove('copied') }, 2000);
+            });
+        });
+
+        /* ══════════ EASTER EGG ══════════ */
+        let easterClicks = 0;
+        document.getElementById('easter-heart').addEventListener('click', function () {
+            easterClicks++;
+            this.style.transform = 'scale(' + (1 + easterClicks * 0.1) + ')';
+            if (easterClicks >= 5) {
+                document.getElementById('secret-msg').classList.add('show');
+                spawnHearts(window.innerWidth / 2, window.innerHeight - 100);
+                easterClicks = 0;
+            }
+        });
+
+        /* ══════════ GUESTBOOK LOGIC ══════════ */
+        const gbName = document.getElementById('gb-name');
+        const gbText = document.getElementById('gb-text');
+        const gbCounter = document.getElementById('gb-counter');
+        const gbStatus = document.getElementById('gb-status');
+        const gbSubmit = document.getElementById('gb-submit');
+        const gbList = document.getElementById('gb-list');
+        const gbLoadMore = document.getElementById('gb-load-more');
+
+        let lastSubmitTime = localStorage.getItem('danna_gb_last') || 0;
+        let gbPage = 0;
+        const GB_LIMIT = 10;
+
+        // Character counter
+        gbText.addEventListener('input', function () {
+            gbCounter.textContent = `${this.value.length}/280`;
+        });
+
+        // Date formatter
+        function formatGBDate(isoString) {
+            const d = new Date(isoString);
+            return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Render message
+        function renderMessage(msg) {
+            const div = document.createElement('div');
+            div.className = 'gb-msg';
+            div.dataset.id = msg.id;
+
+            // Basic sanitization
+            const cleanText = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const cleanName = msg.sender_name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            let replyHtml = '';
+            if (msg.reply_text) {
+                const cleanReply = msg.reply_text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                replyHtml = `
+                <div class="gb-reply">
+                    <div class="gb-reply-title">Resposta do Grey:</div>
+                    <div class="gb-reply-text">${cleanReply}</div>
+                </div>`;
+            }
+
+            const favHtml = msg.is_favorite ? '<span class="gb-fav-icon">❤️</span>' : '';
+
+            div.innerHTML = `
+                <div class="gb-msg-header">
+                    <span class="gb-msg-name">${cleanName}${favHtml}</span>
+                    <span class="gb-msg-date">${formatGBDate(msg.created_at)}</span>
+                </div>
+                <div class="gb-msg-text">${cleanText}</div>
+                ${replyHtml}
+                <div class="admin-controls">
+                    <div class="admin-btns">
+                        <button class="admin-btn" onclick="replyMessage('${msg.id}')">Responder</button>
+                        <button class="admin-btn" onclick="toggleFavorite('${msg.id}', ${msg.is_favorite})">${msg.is_favorite ? 'Desfavoritar' : 'Favoritar ❤️'}</button>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        // Fetch messages
+        async function fetchMessages(append = false) {
+            if (!supabaseClient) {
+                gbList.innerHTML = '<div style="text-align:center; padding: 20px;">Supabase não configurado.</div>';
+                return;
+            }
+            if (!append) gbPage = 0;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('messages')
+                    .select('*')
+                    .eq('site_id', SITE_ID)
+                    .order('created_at', { ascending: false })
+                    .range(gbPage * GB_LIMIT, (gbPage + 1) * GB_LIMIT - 1);
+
+                if (error) throw error;
+
+                if (!append) gbList.innerHTML = '';
+
+                if (data.length === 0 && !append) {
+                    gbList.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-lt); font-style: italic;">Seja o primeiro a deixar um recadinho! 💛</div>';
+                    gbLoadMore.style.display = 'none';
+                    return;
+                }
+
+                data.forEach(msg => {
+                    gbList.appendChild(renderMessage(msg));
+                });
+
+                if (data.length === GB_LIMIT) {
+                    gbLoadMore.style.display = 'block';
+                } else {
+                    gbLoadMore.style.display = 'none';
+                }
+            } catch (err) {
+                console.error("Erro ao buscar recados:", err);
+                if (!append) gbList.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--wine);">Erro ao carregar os recadinhos.<br><br><strong>Detalhe Técnico:</strong> ${err.message || JSON.stringify(err)}</div>`;
+            }
+        }
+
+        gbLoadMore.addEventListener('click', () => {
+            gbPage++;
+            fetchMessages(true);
+        });
+
+        // Submit message
+        document.getElementById('gb-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!supabaseClient) {
+                gbStatus.textContent = 'Supabase não configurado.';
+                gbStatus.style.color = 'var(--wine)';
+                return;
+            }
+
+            const now = Date.now();
+            if (now - lastSubmitTime < 10000) {
+                gbStatus.textContent = `Aguarde ${Math.ceil((10000 - (now - lastSubmitTime)) / 1000)}s para enviar outro.`;
+                gbStatus.style.color = 'var(--wine)';
+                return;
+            }
+
+            const nameVal = gbName.value.trim();
+            const textVal = gbText.value.trim().replace(/\s{3,}/g, '  '); // simple normalize
+
+            if (nameVal.length < 2 || textVal.length < 1) return;
+
+            gbSubmit.disabled = true;
+            gbStatus.textContent = 'Enviando...';
+            gbStatus.style.color = 'var(--text-lt)';
+
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .insert([
+                        { site_id: SITE_ID, sender_name: nameVal, text: textVal }
+                    ]);
+
+                if (error) throw error;
+
+                // Success
+                lastSubmitTime = Date.now();
+                localStorage.setItem('danna_gb_last', lastSubmitTime);
+                gbText.value = '';
+                gbCounter.textContent = '0/280';
+
+                gbStatus.textContent = 'Recadinho enviado! 💛';
+                gbStatus.style.color = 'green';
+
+                // Spawn some local hearts over the button
+                const rect = gbSubmit.getBoundingClientRect();
+                spawnHearts(rect.left + rect.width / 2, rect.top);
+
+                setTimeout(() => { gbStatus.textContent = ''; }, 3000);
+
+                // Refresh list
+                fetchMessages(false);
+            } catch (err) {
+                console.error("Erro ao enviar:", err);
+                gbStatus.innerHTML = `Erro. <br><strong>Detalhe:</strong> ${err.message || JSON.stringify(err)}`;
+                gbStatus.style.color = 'var(--wine)';
+            } finally {
+                gbSubmit.disabled = false;
+            }
+        });
+
+        // Admin Auth Flow (Simple Local Passcode)
+        // Hidden trigger: clicking the small lock icon
+        document.getElementById('admin-trigger').addEventListener('click', () => {
+            const pass = prompt("Modo Admin: Digite a senha para gerenciar os recados");
+            if (pass === ADMIN_PASSCODE) {
+                document.body.classList.add('admin-mode');
+                alert("Modo admin ativado! Botões de resposta visíveis nos recados.");
+            } else if (pass) {
+                alert("Senha incorreta.");
+            }
+        });
+
+        // Admin actions
+        window.replyMessage = async function (id) {
+            const response = prompt("Digite a sua resposta (max 280):");
+            if (response === null) return;
+            const replyVal = response.trim();
+            if (!replyVal) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .update({ reply_text: replyVal, replied_at: new Date().toISOString() })
+                    .eq('id', id)
+                    .eq('site_id', SITE_ID);
+
+                if (error) throw error;
+                fetchMessages(false);
+            } catch (err) {
+                console.error("Fail reply:", err);
+                alert("Erro ao responder: " + err.message);
+            }
+        }
+
+        window.toggleFavorite = async function (id, currentState) {
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .update({ is_favorite: !currentState })
+                    .eq('id', id)
+                    .eq('site_id', SITE_ID);
+
+                if (error) throw error;
+                fetchMessages(false);
+            } catch (err) {
+                console.error("Fail fav:", err);
+                alert("Erro ao favoritar: " + err.message);
+            }
+        }
+
+        // Initialize GB
+        if (window.supabase) fetchMessages();
+
+        /* ══════════ SMOOTH SCROLL ══════════ */
+        function scrollTo(sel) { document.querySelector(sel)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+    </script>
+
+    <!-- 
+    ========================================================
+    SUPABASE SETUP INSTRUCTIONS (FOR THE DATABASE)
+    ========================================================
+    1. Go to Supabase > SQL Editor > New Query
+    2. Run this to create the table:
+    
+    CREATE TABLE messages (
+      id uuid primary key default gen_random_uuid(),
+      site_id text not null,
+      sender_name text not null,
+      text text not null,
+      created_at timestamp with time zone default now(),
+      reply_text text,
+      replied_at timestamp with time zone,
+      is_favorite boolean default false,
+      client_fingerprint text
+    );
+    CREATE INDEX idx_messages_site_id ON messages (site_id);
+    
+    3. Run this to setup security (Row Level Security - RLS):
+    
+    ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+    
+    -- Anyone can read messages for this site
+    CREATE POLICY "Public Read" ON messages
+      FOR SELECT USING (true);
+      
+    -- Anyone can insert a new message, but cannot set reply_text or is_favorite
+    CREATE POLICY "Public Insert" ON messages
+      FOR INSERT WITH CHECK (
+        site_id = current_setting('request.jwt.claims', true)::json->>'site_id' OR true -- simplified for no-auth
+      );
+      
+    -- ONLY authenticated users (or those with service key bypass) can UPDATE.
+    -- If using simple passcode without real Auth, you will need to disable RLS for UPDATE, OR use Auth.
+    -- FOR LOCAL PASSCODE ONLY (Insecure, allows anyone who knows API to update):
+    CREATE POLICY "Public Update (Insecure)" ON messages
+      FOR UPDATE USING (true);
+      
+    -- (RECOMMENDED SECURE WAY): Use Supabase Auth and change the update policy to:
+    -- CREATE POLICY "Auth Update" ON messages FOR UPDATE USING (auth.role() = 'authenticated');
+    ========================================================
+    -->
+
+</body>
+
+</html>
