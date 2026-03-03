@@ -1767,8 +1767,12 @@ Para sempre seu irmão chato,`}
             div.dataset.id = msg.id;
 
             // Basic sanitization
-            const cleanText = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            let cleanText = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const cleanName = msg.sender_name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            if (msg.is_censored) {
+                cleanText = '<span style="color: var(--text-lt); font-style: italic; opacity: 0.7;">Esta mensagem foi classificada como imprópria.</span>';
+            }
 
             let replyHtml = '';
             if (msg.reply_text) {
@@ -1793,6 +1797,8 @@ Para sempre seu irmão chato,`}
                     <div class="admin-btns">
                         <button class="admin-btn" onclick="replyMessage('${msg.id}')">Responder</button>
                         <button class="admin-btn" onclick="toggleFavorite('${msg.id}', ${msg.is_favorite})">${msg.is_favorite ? 'Desfavoritar' : 'Favoritar ❤️'}</button>
+                        <button class="admin-btn" onclick="toggleCensor('${msg.id}', ${msg.is_censored})">${msg.is_censored ? 'Remover Censura' : 'Censurar 🚫'}</button>
+                        <button class="admin-btn" onclick="deleteMessage('${msg.id}')" style="color: #d32f2f;">Apagar 🗑️</button>
                     </div>
                 </div>
             `;
@@ -1955,6 +1961,40 @@ Para sempre seu irmão chato,`}
             }
         }
 
+        window.toggleCensor = async function (id, currentState) {
+            if (!confirm(`Deseja realmente ${currentState ? 'remover a censura' : 'censurar'} esta mensagem?`)) return;
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .update({ is_censored: !currentState })
+                    .eq('id', id)
+                    .eq('site_id', SITE_ID);
+
+                if (error) throw error;
+                fetchMessages(false);
+            } catch (err) {
+                console.error("Fail censor:", err);
+                alert("Erro ao censurar: " + err.message);
+            }
+        }
+
+        window.deleteMessage = async function (id) {
+            if (!confirm("Você tem CERTEZA de que deseja APAGAR permanentemente esta mensagem?")) return;
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .delete()
+                    .eq('id', id)
+                    .eq('site_id', SITE_ID);
+
+                if (error) throw error;
+                fetchMessages(false);
+            } catch (err) {
+                console.error("Fail delete:", err);
+                alert("Erro ao apagar: " + err.message);
+            }
+        }
+
         // Initialize GB
         if (window.supabase) fetchMessages();
 
@@ -1978,9 +2018,13 @@ Para sempre seu irmão chato,`}
       reply_text text,
       replied_at timestamp with time zone,
       is_favorite boolean default false,
+      is_censored boolean default false,
       client_fingerprint text
     );
     CREATE INDEX idx_messages_site_id ON messages (site_id);
+
+    -- Se já tiver a tabela e precisar APENAS adicionar a coluna, rode:
+    -- ALTER TABLE messages ADD COLUMN is_censored boolean default false;
     
     3. Run this to setup security (Row Level Security - RLS):
     
@@ -1996,14 +2040,19 @@ Para sempre seu irmão chato,`}
         site_id = current_setting('request.jwt.claims', true)::json->>'site_id' OR true -- simplified for no-auth
       );
       
-    -- ONLY authenticated users (or those with service key bypass) can UPDATE.
-    -- If using simple passcode without real Auth, you will need to disable RLS for UPDATE, OR use Auth.
-    -- FOR LOCAL PASSCODE ONLY (Insecure, allows anyone who knows API to update):
+    -- ONLY authenticated users (or those with service key bypass) can UPDATE/DELETE.
+    -- If using simple passcode without real Auth, you will need to disable RLS for UPDATE/DELETE.
+    -- FOR LOCAL PASSCODE ONLY (Insecure, allows anyone who knows API to update/delete):
+    
     CREATE POLICY "Public Update (Insecure)" ON messages
       FOR UPDATE USING (true);
       
-    -- (RECOMMENDED SECURE WAY): Use Supabase Auth and change the update policy to:
+    CREATE POLICY "Public Delete (Insecure)" ON messages
+      FOR DELETE USING (true);
+      
+    -- (RECOMMENDED SECURE WAY): Use Supabase Auth and change policies to:
     -- CREATE POLICY "Auth Update" ON messages FOR UPDATE USING (auth.role() = 'authenticated');
+    -- CREATE POLICY "Auth Delete" ON messages FOR DELETE USING (auth.role() = 'authenticated');
     ========================================================
     -->
 
