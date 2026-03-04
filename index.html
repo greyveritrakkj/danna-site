@@ -1149,6 +1149,105 @@
             }
         }
 
+        /* ══════════ HUG EMERGENCY ══════════ */
+        .hug-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: linear-gradient(135deg, #7b1fa2, #e91e63);
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            animation: pulse-hug 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes pulse-hug {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 4px 25px rgba(233, 30, 99, 0.8);
+            }
+        }
+
+        .hug-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 5, 15, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .hug-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hug-gif {
+            width: 200px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(233, 30, 99, 0.2);
+            margin-bottom: 30px;
+            transform: scale(0.8);
+            transition: transform 1.5s ease;
+        }
+
+        .hug-overlay.active .hug-gif {
+            transform: scale(1);
+        }
+
+        .hug-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(20px, 5vw, 28px);
+            color: #fce8ef;
+            text-align: center;
+            min-height: 80px;
+            max-width: 600px;
+            line-height: 1.5;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .hug-close {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hug-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         /* ══════════ OVERLAY FOR FAV DRAWER ══════════ */
         .drawer-overlay {
             position: fixed;
@@ -1193,6 +1292,13 @@
 
             .fox-emoji {
                 font-size: 42px
+            }
+
+            .hug-btn {
+                bottom: 12px;
+                left: 12px;
+                padding: 10px 14px;
+                font-size: 12px;
             }
         }
     </style>
@@ -1317,6 +1423,19 @@
         <span class="fox-mood" id="fox-mood">💛</span>
     </div>
 
+    <!-- HUG EMERGENCY BUTTON -->
+    <button class="hug-btn" id="hug-btn" aria-label="Botão de Emergência para Dia Pesado">
+        <span>🆘</span> Dia Pesado?
+    </button>
+
+    <!-- HUG OVERLAY -->
+    <div class="hug-overlay" id="hug-overlay">
+        <img src="https://media.tenor.com/bZeX426j2uUAAAAi/mocha-bear-mocha.gif" alt="Ursinhos se abraçando"
+            class="hug-gif">
+        <div class="hug-text" id="hug-text">Respira fundo...</div>
+        <button class="hug-close" id="hug-close">Já me sinto um pouco melhor 💛</button>
+    </div>
+
     <!-- PHRASE CARD -->
     <div class="phrase-card" id="phrase-card">
         <p class="phrase-text" id="phrase-text"></p>
@@ -1351,6 +1470,9 @@
     <!-- AUDIO -->
     <audio id="bg-music" loop preload="none">
         <source src="https://cdn.pixabay.com/audio/2022/02/22/audio_d1718ab41b.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="hug-music" loop preload="none">
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
     </audio>
 
     <!-- JAVASCRIPT PLACEHOLDER -->
@@ -2009,6 +2131,63 @@ Para sempre seu irmão chato,`}
 
         // Initialize GB
         if (window.supabase) fetchMessages();
+
+        /* ══════════ VIRTUAL HUG LOGIC ══════════ */
+        const hugBtn = document.getElementById('hug-btn');
+        const hugOverlay = document.getElementById('hug-overlay');
+        const hugClose = document.getElementById('hug-close');
+        const hugText = document.getElementById('hug-text');
+        const hugMusic = document.getElementById('hug-music');
+        hugMusic.volume = 0.4;
+
+        const hugMessages = [
+            "Respira fundo...",
+            "Eu sei que as coisas estão difíceis agora.",
+            "Mas vai ficar tudo bem.",
+            "Você é incrivelmente forte.",
+            "Eu tô com você, mesmo de longe.",
+            "Tome esse abraço bem apertado da nossa amizade. 🥺",
+            "Você é muito amada, não esqueça disso. 💛"
+        ];
+
+        let hugInterval = null;
+        let hugMsgIndex = 0;
+
+        hugBtn.addEventListener('click', () => {
+            hugOverlay.classList.add('active');
+
+            // Audio logic
+            if (musicOn) audio.pause();
+            hugMusic.currentTime = 0;
+            hugMusic.play().catch(() => { });
+
+            // Text logic
+            hugMsgIndex = 0;
+            hugText.style.opacity = 0;
+            clearInterval(hugInterval);
+
+            setTimeout(() => {
+                hugText.textContent = hugMessages[0];
+                hugText.style.opacity = 1;
+            }, 1000);
+
+            hugInterval = setInterval(() => {
+                hugText.style.opacity = 0;
+                setTimeout(() => {
+                    hugMsgIndex++;
+                    if (hugMsgIndex >= hugMessages.length) hugMsgIndex = 0;
+                    hugText.textContent = hugMessages[hugMsgIndex];
+                    hugText.style.opacity = 1;
+                }, 1000); // Wait for fade out before changing text
+            }, 5500); // Change text every 5.5s
+        });
+
+        hugClose.addEventListener('click', () => {
+            hugOverlay.classList.remove('active');
+            clearInterval(hugInterval);
+            hugMusic.pause();
+            if (musicOn) audio.play().catch(() => { });
+        });
 
         /* ══════════ SMOOTH SCROLL ══════════ */
         function scrollTo(sel) { document.querySelector(sel)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
