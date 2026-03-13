@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Para Danna 💛</title>
+    <title>Para minha pequena Danna 🍌💛</title>
+    <link rel="icon" type="image/png" href="nano_banana.png">
     <meta name="description" content="Um presente digital especial feito com muito carinho para Danna.">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@400;600;700&display=swap"
@@ -1761,41 +1762,89 @@ Para sempre seu irmão chato,`}
             '🛡️ <strong>A Rocha Fiel de Escudo</strong> 🛡️<br><br>Nenhum ser é de deixar os outros comendo poeira em lealdade num teste da eternidade. Você é a definição literal de Porto Seguro Encravado. Uma guardiã fofinha disfarçada e gigante. Todo mundo treme porque se alguém pisar no seu amigo... eles fogem com esse seu amor gigante e fúria indestrutível! Você é uma fortaleza pros seus amados. 💪🐆❤️'
         ];
 
-        /* ══════════ PETALS CANVAS ══════════ */
+        /* ══════════ PETALS CANVAS (OPTIMIZED) ══════════ */
         (function () {
             const cv = document.getElementById('petals-canvas'), ctx = cv.getContext('2d');
-            let W, H; const petals = []; const PETAL_COUNT = 25;
+            let W, H; const petals = []; const PETAL_COUNT = 25; // Keep element count manageable
             const petalChars = ['🌸', '🩷', '💮', '🏵️', '✿'];
-            function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight }
-            window.addEventListener('resize', resize); resize();
+            let animationFrameId;
+
+            function resize() {
+                W = cv.width = window.innerWidth;
+                H = cv.height = window.innerHeight;
+            }
+            
+            // Debounce resize to prevent performance drops during window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(resize, 150);
+            });
+            resize();
+
             class Petal {
-                constructor() { this.reset() }
-                reset() {
-                    this.x = Math.random() * W; this.y = -30 - Math.random() * 100;
-                    this.size = 14 + Math.random() * 12; this.speed = 0.5 + Math.random() * 1.5;
-                    this.drift = Math.random() * 0.8 - 0.4; this.rot = Math.random() * 360;
-                    this.rotSpeed = Math.random() * 2 - 1; this.alpha = 0.4 + Math.random() * 0.5;
+                constructor() { this.reset(true) }
+                reset(initial = false) {
+                    this.x = Math.random() * W;
+                    this.y = initial ? Math.random() * H : -30 - Math.random() * 100;
+                    this.size = 14 + Math.random() * 12;
+                    // Pre-calculate to avoid constant math operations in update loop
+                    this.speed = 0.5 + Math.random() * 1.5;
+                    this.driftModifier = Math.random() * 0.8 - 0.4;
+                    this.rot = Math.random() * 360;
+                    this.rotSpeed = Math.random() * 2 - 1;
+                    this.alpha = 0.4 + Math.random() * 0.5;
                     this.char = petalChars[Math.floor(Math.random() * petalChars.length)];
+                    this.sineOffset = Math.random() * Math.PI * 2; // Unique sine phase
                 }
                 update() {
-                    this.y += this.speed; this.x += this.drift + Math.sin(this.y * 0.01) * 0.3;
+                    this.y += this.speed;
+                    // Less aggressive sine calculation
+                    this.x += this.driftModifier + Math.sin(this.sineOffset + this.y * 0.01) * 0.3;
                     this.rot += this.rotSpeed;
                     if (this.y > H + 40) this.reset();
                 }
                 draw() {
-                    ctx.save(); ctx.globalAlpha = this.alpha;
-                    ctx.translate(this.x, this.y); ctx.rotate(this.rot * Math.PI / 180);
-                    ctx.font = this.size + 'px serif'; ctx.textAlign = 'center';
-                    ctx.fillText(this.char, 0, 0); ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rot * Math.PI / 180);
+                    ctx.font = this.size + 'px serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(this.char, 0, 0);
+                    ctx.restore();
                 }
             }
-            for (let i = 0; i < PETAL_COUNT; i++) { const p = new Petal(); p.y = Math.random() * H; petals.push(p) }
-            function animate() {
-                ctx.clearRect(0, 0, W, H);
-                petals.forEach(p => { p.update(); p.draw() });
+
+            for (let i = 0; i < PETAL_COUNT; i++) { petals.push(new Petal()); }
+
+            let lastTime = 0;
+            const FPS = 30; // Limit FPS to save CPU
+            const interval = 1000 / FPS;
+
+            function animate(timestamp) {
                 requestAnimationFrame(animate);
+                
+                const deltaTime = timestamp - lastTime;
+                
+                // Only render if enough time has passed (FPS capping)
+                if (deltaTime > interval) {
+                    lastTime = timestamp - (deltaTime % interval);
+                    
+                    ctx.clearRect(0, 0, W, H);
+                    petals.forEach(p => { p.update(); p.draw() });
+                }
             }
-            animate();
+            
+            // Check visibility to pause animation when user is on another tab
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // Pause
+                    lastTime = 0;
+                }
+            });
+
+            requestAnimationFrame(animate);
         })();
 
         /* ══════════ COUNTER ══════════ */
